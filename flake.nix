@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
     disko = {
       url = "github:nix-community/disko";
@@ -16,57 +16,8 @@
       ...
     }:
     {
-      nixosConfigurations.hetzner-cloud = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          disko.nixosModules.disko
-          ./configuration.nix
-        ];
-      };
-      # tested with 2GB/2CPU droplet, 1GB droplets do not have enough RAM for kexec
-      nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          disko.nixosModules.disko
-          { disko.devices.disk.disk1.device = "/dev/vda"; }
-          {
-            # do not use DHCP, as DigitalOcean provisions IPs using cloud-init
-            networking.useDHCP = nixpkgs.lib.mkForce false;
-
-            services.cloud-init = {
-              enable = true;
-              network.enable = true;
-              settings = {
-                datasource_list = [ "ConfigDrive" ];
-                datasource.ConfigDrive = { };
-              };
-            };
-          }
-          ./configuration.nix
-        ];
-      };
-      nixosConfigurations.hetzner-cloud-aarch64 = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          disko.nixosModules.disko
-          ./configuration.nix
-        ];
-      };
-
-      # Use this for all other targets
-      # nixos-anywhere --flake .#generic --generate-hardware-config nixos-generate-config ./hardware-configuration.nix <hostname>
-      nixosConfigurations.generic = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          disko.nixosModules.disko
-          ./configuration.nix
-          ./hardware-configuration.nix
-        ];
-      };
-
-      # Slightly experimental: Like generic, but with nixos-facter (https://github.com/numtide/nixos-facter)
-      # nixos-anywhere --flake .#generic-nixos-facter --generate-hardware-config nixos-facter facter.json <hostname>
-      nixosConfigurations.generic-nixos-facter = nixpkgs.lib.nixosSystem {
+      # nixos-anywhere --flake .#ionos-eu1 --generate-hardware-config nixos-facter facter.json <hostname>
+      nixosConfigurations.ionos-eu1 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           disko.nixosModules.disko
