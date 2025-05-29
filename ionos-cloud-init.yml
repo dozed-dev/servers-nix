@@ -1,0 +1,29 @@
+#cloud-config
+
+# User setup configuration
+users:
+  - name: root
+#    gecos: Example User
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo
+    homedir: /home/root
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDjBF39he6/uZfi/1u4AFiXRpGMjLhphCAMeV+cw1O0bAAAABHNzaDo= Yubikey 5 NFC
+write_files:
+- path: /etc/nixos/host.nix
+  permissions: '0644'
+  content: |
+    { modulesPath, pkgs, ... }: {
+      imports = [ (modulesPath + "/profiles/installation-device.nix") ];
+      services.openssh.enable = true;
+      users.users.root.openssh.authorizedKeys.keys = [
+        "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDjBF39he6/uZfi/1u4AFiXRpGMjLhphCAMeV+cw1O0bAAAABHNzaDo= Yubikey 5 NFC"
+      ];
+      environment.systemPackages = [ pkgs.nixos-facter ];
+    }
+
+runcmd:
+  - apt update
+  - apt upgrade
+  - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | NIXOS_IMPORT=./host.nix NIX_CHANNEL=nixos-25.05 bash 2>&1 | tee /tmp/infect.log
