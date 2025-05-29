@@ -22,6 +22,7 @@
           system = "x86_64-linux";
           modules = [
             disko.nixosModules.disko
+            { disko.devices.disk.main.device = "/dev/vda"; }
             ./configuration.nix
             nixos-facter-modules.nixosModules.facter
             {
