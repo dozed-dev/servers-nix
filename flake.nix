@@ -6,6 +6,8 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -14,12 +16,13 @@
       disko,
       nixos-facter-modules,
       ...
-    }:
+    }@inputs:
     {
       # nixos-anywhere --flake .#ionos-eu1 --generate-hardware-config nixos-facter facter.json <hostname>
       nixosConfigurations = {
         ionos-eu1 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
           modules = [
             disko.nixosModules.disko
             { disko.devices.disk.main.device = "/dev/vda"; }

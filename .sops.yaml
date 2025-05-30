@@ -1,0 +1,9 @@
+keys:
+  - &main age1yubikey1qdfgajsn8ez9lzqv9tlfvj6de87f7njlna9vtwyfhrg5p03hj6he7u7x584
+  - &eu1 age1wcgce9xfmetfd7a0h93vc30asmeuxax7jjnngx3lrmlmu0xmeqls9rrkg7
+creation_rules:
+  - path_regex: secrets/eu1/.*$
+    key_groups:
+    - age:
+      - *main
+      - *eu1
