@@ -15,7 +15,7 @@
               "flow" = "xtls-rprx-vision";
             }
           ];
-          # decryption = "none";
+          decryption = "none";
         };
         streamSettings = {
           network = "tcp";
