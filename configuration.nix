@@ -30,5 +30,16 @@
     "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDjBF39he6/uZfi/1u4AFiXRpGMjLhphCAMeV+cw1O0bAAAABHNzaDo= Yubikey 5 NFC"
   ];
 
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 2 * 1024;
+  }];
+
+  boot.kernelParams = [
+    "zswap.enabled=1"
+    "zswap.max_pool_percent=80"
+    "zswap.shrinker_enabled=1"
+  ];
+
   system.stateVersion = "25.05";
 }
