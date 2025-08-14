@@ -1,4 +1,5 @@
 {...}: {
+  networking.firewall.allowedTCPPorts = [ 443 ];
   services.xray = {
     enable = true;
     settings = {
