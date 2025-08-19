@@ -9,7 +9,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     (modulesPath + "/profiles/perlless.nix")
-    ./hardware-config.nix
+    ./hardware-configuration.nix
   ];
 
   networking = {
