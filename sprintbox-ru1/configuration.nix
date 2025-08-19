@@ -5,6 +5,13 @@
   ...
 }:
 {
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
+    (modulesPath + "/profiles/perlless.nix")
+    ./hardware-config.nix
+  ];
+
   networking = {
     interfaces.ens3.ipv4.addresses = [{
       address = "185.185.70.168";
@@ -16,12 +23,6 @@
     };
     nameservers = ["141.8.194.254" "141.8.197.254"];
   };
-
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-    (modulesPath + "/profiles/qemu-guest.nix")
-    (modulesPath + "/profiles/perlless.nix")
-  ];
 
   environment.systemPackages = map lib.lowPrio [
     pkgs.curl
@@ -40,7 +41,6 @@
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
-  fileSystems."/" = { device = "/dev/vda1"; fsType = "ext4"; };
 
   zramSwap.enable = true;
 
