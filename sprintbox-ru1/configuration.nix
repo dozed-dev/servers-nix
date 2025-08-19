@@ -10,7 +10,10 @@
       address = "185.185.70.168";
       prefixLength = 22;
     }];
-    defaultGateway = "185.185.68.1";
+    defaultGateway = {
+      address = "185.185.68.1";
+      interface = "ens3";
+    };
     nameservers = ["141.8.194.254" "141.8.197.254"];
   };
 
@@ -34,6 +37,10 @@
     device = "/var/lib/swapfile";
     size = 2 * 1024;
   }];
+
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/vda";
+  fileSystems."/" = { device = "/dev/vda1"; fsType = "ext4"; };
 
   zramSwap.enable = true;
 
