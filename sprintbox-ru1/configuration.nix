@@ -1,15 +1,14 @@
 {
   modulesPath,
-  lib,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     (modulesPath + "/profiles/perlless.nix")
     ./hardware-configuration.nix
+    ./amnezia.nix
   ];
 
   networking = {
@@ -24,7 +23,7 @@
     nameservers = ["141.8.194.254" "141.8.197.254"];
   };
 
-  environment.systemPackages = map lib.lowPrio [
+  environment.systemPackages = [
     pkgs.curl
     pkgs.gitMinimal
   ];
