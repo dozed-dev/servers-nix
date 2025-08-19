@@ -30,8 +30,25 @@
             nixos-facter-modules.nixosModules.facter
             {
               config.facter.reportPath =
-                if builtins.pathExists ./facter.json then
-                  ./facter.json
+                if builtins.pathExists ./ionos-eu1/facter.json then
+                  ./ionos-eu1/facter.json
+                else
+                  throw "Have you forgotten to run nixos-anywhere with `--generate-hardware-config nixos-facter ./facter.json`?";
+            }
+          ];
+        };
+        sprintbox-ru1 = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            disko.nixosModules.disko
+            { disko.devices.disk.main.device = "/dev/vda"; }
+            ./sprintbox-ru1/configuration.nix
+            nixos-facter-modules.nixosModules.facter
+            {
+              config.facter.reportPath =
+                if builtins.pathExists ./sprintbox-ru1/facter.json then
+                  ./sprintbox-ru1/facter.json
                 else
                   throw "Have you forgotten to run nixos-anywhere with `--generate-hardware-config nixos-facter ./facter.json`?";
             }
