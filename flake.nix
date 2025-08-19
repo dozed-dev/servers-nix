@@ -26,7 +26,7 @@
           modules = [
             disko.nixosModules.disko
             { disko.devices.disk.main.device = "/dev/vda"; }
-            ./configuration.nix
+            ./ionos-eu1/configuration.nix
             nixos-facter-modules.nixosModules.facter
             {
               config.facter.reportPath =
