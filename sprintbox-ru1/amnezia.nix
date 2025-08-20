@@ -11,6 +11,11 @@
       enable = true;
       allowedUDPPorts = [ 51820 ];
     };
+    nat = {
+      enable = true;
+      internalInterfaces = [ "awg0" ];
+      externalInterface = "ens3";
+    };
     wg-quick.interfaces = {
       awg0.configFile = "/root/awg0.conf";
     };
