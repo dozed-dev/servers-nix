@@ -19,17 +19,16 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
-  services.openssh.enable = true;
-
   environment.systemPackages = map lib.lowPrio [
     pkgs.curl
     pkgs.gitMinimal
   ];
 
+  services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = [
-    # change this to your ssh key
     "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDjBF39he6/uZfi/1u4AFiXRpGMjLhphCAMeV+cw1O0bAAAABHNzaDo= Yubikey 5 NFC"
   ];
+  networking.firewall.allowedTCPPorts = [ 22 ];
 
   swapDevices = [{
     device = "/var/lib/swapfile";
